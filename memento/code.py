@@ -1,3 +1,4 @@
+import os
 import wifi
 import time
 import board
@@ -16,7 +17,7 @@ print("wifi enabled:", wifi.radio.enabled)
 print("ip:", wifi.radio.ipv4_address)
 print("ssid:", wifi.radio.ap_info.ssid if wifi.radio.ap_info else None)
 
-WEBHOOK_URL = "http://homeassistant.local:8123/api/webhook/memento_camera"
+WEBHOOK_URL = os.getenv("MEMENTO_WEBHOOK_URL")
 
 pool = socketpool.SocketPool(wifi.radio)
 requests = adafruit_requests.Session(pool)
