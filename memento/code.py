@@ -45,6 +45,7 @@ cheese.pull = digitalio.Pull.UP
 
 i2c = busio.I2C(board.SCL, board.SDA)
 
+# TODO: update this to use adafruit_pycamera instead
 cam = camera.Camera(
     i2c=i2c,
     data_pins=(
@@ -69,25 +70,18 @@ cam = camera.Camera(
 
 print("waiting for action...")
 
-# with open("/writetest.txt", "w") as f: f.write("ok")
+# last = cheese.value
 
-last = cheese.value
+last = pir.value
 
 while True:
-    now = cheese.value
+    # now = cheese.value
+    now = pir.value
     if last and not now:
         jpg = cam.take(1)
-        print("say cheese 🧀")
+        print(f"say cheese 🧀! {time.localtime()}")
         if jpg:
             post_jpeg(jpg)
     last = now
-    """
-    print(pir.value)
-    if pir.value:
-        jpg = cam.take(1)
-        print("bytes:", len(jpg))
-        # with open("/test.jpg", "wb") as f:
-            # f.write(jpg)
-    """
 
     time.sleep(0.05)
